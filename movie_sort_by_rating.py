@@ -23,7 +23,7 @@ def find(folder):
 		response = urllib.urlopen(url).read()
 		json_values = json.loads(response)
 		if json_values["Response"]=="True":
-			imdb_rating = json_values['imdb_rating']
+			imdb_rating = json_values['imdbRating']
 			print imdb_rating+" "+x
 			destination_directory = 'E:\movies\\'+ imdb_rating
 			if not os.path.exists(destination_directory): 
@@ -43,7 +43,7 @@ def find(folder):
 					response = urllib.urlopen(url).read()
 					json_values = json.loads(response)
 					if json_values["Response"]=="True":
-						imdb_rating = json_values['imdb_rating']
+						imdb_rating = json_values['imdbRating']
 						print imdb_rating+" "+x
 						destination_directory = 'E:\Movies\\'+ imdb_rating
 						if not os.path.exists(destination_directory): 
