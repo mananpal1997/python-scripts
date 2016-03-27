@@ -54,6 +54,5 @@ else:
             for s in best:
                 c += 1
             filename = video['items'][i]['pafy'].streams[c-1]
-        continue
 
         x = filename.download(filepath="E:/YouTube/" + name + "/")
