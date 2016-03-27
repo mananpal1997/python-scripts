@@ -1,48 +1,59 @@
-import pafy
-import pyperclip
-flag=0
-result = pyperclip.paste()
-type=input("Hit 1 for video,2 for playlist : ")
-type=int(type)
-qual=input("Hit 1 for best clarity, 2 for worst, 3 for other : ")
-qual=int(qual)
-if(qual==3):
-	flag=1
-c=0
-if(type==1):
-	url = result
-	video = pafy.new(url)
-	best = video.streams
-	if(flag==1):
-                for b in best:
-                        print(str(c)+str(b))
-                        c+=1
-		index=input("Enter index : ")
-		index=int(index)
-	elif(qual==2):
-		index=c-1
-	elif(qual==1):
-		index=0
-		
-	filename = video.streams[index]
-	print (filename)
-	x=filename.download(filepath='E:/YouTube/')#+filename.title + "." + filename.extension)
+import pyperclip, pafy, os
+
+os.makedirs('E:/YouTube', exist_ok=True)
+url = pyperclip.paste()
+type = int(input("Hit 1 for video,2 for playlist : "))
+qual = int(input("Hit 1 for best clarity, 2 for worst, 3 for other : "))
+
+flag = 0
+c = 0
+if(qual == 3):
+    flag = 1
+
+if(type == 1):
+    
+    video = pafy.new(url)
+    if(flag == 1):
+        streams = video.streams
+        for s in streams:
+            print(str(c)+'. '+s.resolution+', '+s.extension)
+            c += 1
+        index = int(input("Enter index : "))
+        filename = video.streams[index]
+
+    elif(qual == 2):
+        index = c - 1
+        filename = video.streams[index]
+
+    elif(qual == 1):
+        for s in streams:
+            c += 1
+        filename = video.streams[c-1]
+
+    x = filename.download(filepath='E:/YouTube/')
 
 else:
-	url=result
-	video=pafy.get_playlist(url)
-	for i in range(1,108):
-		c=0
-		best=video['items'][i]['pafy'].streams
-		if(flag==1):
-                        for b in best:
-                                print (str(c)+str(b))
-                                c+=1
-			index=input("Enter index : ")
-			index=int(index)
-		elif(qual==2):
-			index=c-1
-		elif(qual==1):
-			index=0
-		filename=video['items'][i]['pafy'].streams[index]
-		x=filename.download(filepath="E:/YouTube/")
+    name = str(input("Enter name of playlist folder : "))
+    os.makedirs('E:/YouTube/'+name, exist_ok=True)
+    video = pafy.get_playlist(url)
+    for i in range(0,int(input("Number of videos in playlist you want to download : "))):
+        c = 0
+        best = video['items'][i]['pafy'].streams
+        if(flag == 1):
+            for s in best:
+                print(str(c)+'. '+s.resolution+', '+s.extension)
+                c += 1
+            index = int(input("Enter index : "))
+            filename = video['items'][i]['pafy'].streams[index]
+
+        elif(qual == 2):
+            index = c - 1
+            filename = video['items'][i]['pafy'].streams[index]
+
+        elif(qual == 1):
+            for s in best:
+                c += 1
+            filename = video['items'][i]['pafy'].streams[c-1]
+        continue
+
+        x = filename.download(filepath="E:/YouTube/" + name + "/")
