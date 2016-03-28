@@ -26,6 +26,7 @@ if(type == 1):
         filename = video.streams[index]
 
     elif(qual == 1):
+        streams = video.streams
         for s in streams:
             c += 1
         filename = video.streams[c-1]
