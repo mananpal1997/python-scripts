@@ -2,6 +2,7 @@ import requests, time
 from bs4 import *
 
 def get_info(names, recent_activity):
+
     for name in names.keys():
         res = requests.get('https://github.com/' + name + '?tab=repositories')
         soup = BeautifulSoup(res.text,'html.parser')
@@ -10,7 +11,26 @@ def get_info(names, recent_activity):
             if(('/'+name+'/') in str(repository)):
                 if(repository.string != None):
                     repository_name = repository.string.strip()
-                    names[name].append(repository_name)
+                    names[name].append("Repo name : "+repository_name)
+
+    for name in names.keys():
+        res = requests.get('https://github.com/' + name + '?tab=repositories')
+        soup = BeautifulSoup(res.text,'html.parser')
+        names.setdefault(name, [])
+        index = 0
+        for x in soup.findAll('div',{'class':'repo-list-stats'}):
+            l = False
+            z = ""
+            for y in x.children:
+                    if('programmingLanguage' in str(y)):
+                            l = True
+                            z = y.string.strip()
+                            break
+            if(l==True):
+                    names[name][index] += ("\n\t\tTechnology/Langauge(s) used : "+z+"\n")
+            else:
+                    names[name][index] += ("\n\t\tNo Technology/Language used.\n")
+            index += 1
        
     for name in recent_activity.keys():
         res = requests.get('https://github.com/' + name)
