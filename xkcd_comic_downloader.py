@@ -49,7 +49,7 @@ l_t = x_t.find('href="/')
 m_t = x_t.find('/',l_t+7)
 n_t = int(x_t[l_t+7:m_t])
 ###############################################################
-
+print(str(n_t)+" comics available for download")
 n = int(input("Enter number of latest XKCD comics you want to download : "))
 nn = n
 if(nn > n_t):
