@@ -5,6 +5,7 @@ e=1
 values=['.','[',']','(',')','m720p','480p','480','DVDSCR','BrRip','New Source','MP3','Mafiaking','1CD',
 'mkv','mSD','2CD','BRRip','BRrip','720p','BluRay','YIFY','mp4','XviD','-','x264','ETRG','avi','StyLishSaLH'
 ,'DVD','dvd','DVDRip','RIP','rip','Rip','Back In Action']
+# values contain some common names found in movies, to identify movie files
 def find(folder):
 	for x in os.listdir(folder):
                 #checking for valid movie name
@@ -19,16 +20,16 @@ def find(folder):
 				x=x.replace(str(z)," ")
 			if("  " in x):
 				x=x.replace("  "," ")
-		url='http://www.omdbapi.com/?t='+str(x)
+		url='http://www.omdbapi.com/?t='+str(x) #The OMDb API is a free web service to obtain movie information,
 		response = urllib.urlopen(url).read()
 		json_values = json.loads(response)
-		if json_values["Response"]=="True":
+		if json_values["Response"]=="True": #If movie with the name exists
 			imdb_rating = json_values['imdbRating']
 			print imdb_rating+" "+x
-			destination_directory = 'E:\movies\\'+ imdb_rating
+			destination_directory = 'E:\movies\\'+ imdb_rating #makes folder with rating as name
 			if not os.path.exists(destination_directory): 
-				os.makedirs(destination_directory)
-			shutil.move(movie_name, destination_directory)
+				os.makedirs(destination_directory) #creates folder if it doesnt exist
+			shutil.move(movie_name, destination_directory) #used for moving files
 		
 		else:
 			a=0
